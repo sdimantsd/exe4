@@ -10,13 +10,13 @@ public class TicTacToeGame {
     private Random rand = new Random();
     private int numberOfFreeSpaces = 9;
 
-    public TicTacToeGame(){
+    TicTacToeGame(){
         StartNewGame();
     }
 
     public void StartNewGame(){ //inisilize the board
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
+        for (int i = 0; i < board.length; i++)
+            for (int j = 0; j < board[i].length; j++)
                 board[i][j] = "";
 
         numberOfFreeSpaces = 9;
@@ -33,7 +33,7 @@ public class TicTacToeGame {
         int r = rand.nextInt(3);
         int c = rand.nextInt(3);
 
-        while (board[r][c] != ""){
+        while (!board[r][c].equals("")){
             r = rand.nextInt(3);
             c = rand.nextInt(3);
         }
@@ -46,19 +46,19 @@ public class TicTacToeGame {
 
 
         for (int i = 0; i < 3; i++) { //check if in one of the rows there is a win situasion
-            if (board[i][0] != "" && (board[i][0] == board[i][1] && board[i][0] == board[i][2]))
+            if (!board[i][0].equals("") && (board[i][0].equals(board[i][1]) && board[i][0].equals(board[i][2])))
                 return board[i][0];
         }
 
         for (int i = 0; i < 3; i++) { //check if in one of the colums there is a win situasion
-            if (board[0][i] != "" && (board[0][i] == board[1][i] && board[0][i] == board[2][i]))
+            if (!board[0][i].equals("") && (board[0][i].equals(board[1][i]) && board[0][i].equals(board[2][i])))
                 return board[0][i];
         }
 
-        if (board[0][0] != "" && (board[0][0] == board[1][1] && board[0][0] == board[2][2])) //check if in the slant there is a win situasion
+        if (!board[0][0].equals("") && (board[0][0].equals(board[1][1]) && board[0][0].equals(board[2][2]))) //check if in the slant there is a win situasion
             return board[0][0];
 
-        if (board[0][2] != "" && (board[0][2] == board[1][1] && board[0][2] == board[2][0])) //check if in the slant there is a win situasion
+        if (!board[0][2].equals("") && (board[0][2].equals(board[1][1]) && board[0][2].equals(board[2][0]))) //check if in the slant there is a win situasion
             return board[0][2];
 
         if (numberOfFreeSpaces == 0)
