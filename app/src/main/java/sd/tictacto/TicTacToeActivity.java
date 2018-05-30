@@ -8,43 +8,47 @@ import android.widget.Toast;
 
 public class TicTacToeActivity extends AppCompatActivity
         implements View.OnClickListener  {
+    public static final String O_SIGN = "O";
+    public static final String X_SIGN = "X";
     private Button btn[] = new Button[9];
-    private Button btnStartNewGame;
     private TicTacToeGame board = new TicTacToeGame();
-    private boolean GameOver = false; //if the game is over, the player can't click on any button
+    private boolean gameOver = false; //if the game is over, the player can't click on any button
 
     private boolean CheckIfTheGameOver(){ //if the gamme is over return true
         String winner = board.WhoIsTheWinner();
-        GameOver = false;
-        if (winner == "")
-            GameOver = false;
-        else if (winner == "game over"){
-            Toast.makeText(this, "the game is over...",
-                    Toast.LENGTH_SHORT).show();
-            GameOver = true;
+        gameOver = false;
+        switch (winner) {
+            case "":
+                gameOver = false;
+                break;
+            case "game over":
+                Toast.makeText(this, "the game is over...",
+                        Toast.LENGTH_SHORT).show();
+                gameOver = true;
+                break;
+            default:
+                Toast.makeText(this, winner + " is the winner!!!",
+                        Toast.LENGTH_SHORT).show();
+                gameOver = true;
+                break;
         }
-        else {
-            Toast.makeText(this, winner + " is the winner!!!",
-                    Toast.LENGTH_SHORT).show();
-            GameOver = true;
-        }
-        return GameOver;
+        return gameOver;
 
     }
     @Override public void onClick(View v) {
-        if (GameOver)//if the game is over, the player can't click on any button
+        if (gameOver)//if the game is over, the player can't click on any button
             return;
         Button b = (Button)v;
-        if (b.getText() == "X" || b.getText() == "O") //check if it's clicked button,
+        if (X_SIGN.contentEquals(b.getText()) || O_SIGN.contentEquals(b.getText())) //check if it's clicked button,
             return;
 
-        b.setText("X");
-        board.PlayTurn(b.getId(), "X");
+        b.setText(X_SIGN);
+        board.PlayTurn(b.getId(), X_SIGN);
         if (CheckIfTheGameOver()) //if the player win, the computer not need to play
             return;
 
         int place = board.ComputerTurn(); //computer turn
-        btn[place].setText("O");
+        btn[place].setText(O_SIGN);
         CheckIfTheGameOver();
 
     }
@@ -53,14 +57,14 @@ public class TicTacToeActivity extends AppCompatActivity
         for (int i = 0 ; i < 9; i++)
             btn[i].setText("");
         board.StartNewGame();
-        GameOver = false;
+        gameOver = false;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tic_tac_toe);
-        btnStartNewGame = (Button)findViewById(R.id.btnStartNewGame);
+        Button btnStartNewGame = (Button) findViewById(R.id.btnStartNewGame);
         btnStartNewGame.setOnClickListener(
             new View.OnClickListener() {
             @Override
